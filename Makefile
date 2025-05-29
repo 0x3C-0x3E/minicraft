@@ -1,6 +1,6 @@
 # Compiler and flags
 CC := gcc
-CFLAGS := -Wall -std=c11 `sdl2-config --cflags`
+CFLAGS := -Wall -std=c11 `sdl2-config --cflags` -Wextra -g
 LDFLAGS := `sdl2-config --libs` -lSDL2_image
 
 # Directories
@@ -30,7 +30,8 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 # Clean compiled files
 clean:
 	rm -rf $(BUILD_DIR)
-
+	mkdir $(BUILD_DIR)
+	cp res $(BUILD_DIR) -r
 # Convenience alias
 run: all
 	./$(BIN)
