@@ -4,16 +4,16 @@
 #include <wchar.h>
 
 void player_init(Player * player) {
-
+    player->speed = 100;
 }
 
 void player_update(Player * player, GameState * game_state) {
     const Uint8 * keystate = SDL_GetKeyboardState(NULL);
 
     if (keystate[SDL_SCANCODE_D]) {
-        player->entity.x_vel = 50;
+        player->entity.x_vel = player->speed;
     } else if (keystate[SDL_SCANCODE_A]) {
-        player->entity.x_vel = -50;
+        player->entity.x_vel = -player->speed;
     } else {
         player->entity.x_vel = 0;
     }
@@ -21,7 +21,7 @@ void player_update(Player * player, GameState * game_state) {
     for (unsigned int i = 0; i < game_state->entity_pool->entity_count; i++) {
         if (game_state->entity_pool->entity_map[i] == Type_Cactus) {
             Cactus * c = (Cactus * ) game_state->entity_pool->entities[i];
-            printf("Cactus X: %f\n", c->entity.x);
+            // printf("Cactus X: %f\n", c->entity.x);
         }
     }
 

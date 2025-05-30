@@ -40,7 +40,6 @@ int app_init(App* app) {
         .renderer = &app->renderer,
         .cactus_texture = renderer_load_texture(&app->renderer, "res/cactus.png"),
         .player_texture = renderer_load_texture(&app->renderer, "res/player.png"),
-        .dt = 0.0f,
     };
 
     app->entity_pool = (EntityPool) {
@@ -61,6 +60,8 @@ int app_init(App* app) {
             .texture = app->drawing_context.player_texture,
         },
     };
+
+    player_init(p);
 
     Cactus * c = (Cactus * ) entity_pool_add_entity(&app->entity_pool, Type_Cactus);
     *c = (Cactus) {
@@ -89,7 +90,7 @@ void app_run(App * app) {
         float frame_time = new_time - app->current_time;
 
         app->dt = frame_time;
-        app->drawing_context.dt = frame_time;
+        app->game_state.dt = frame_time;
 
         app->current_time = new_time;
         app->accumilator += frame_time; 

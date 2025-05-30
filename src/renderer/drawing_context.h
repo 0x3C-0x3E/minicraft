@@ -8,5 +8,4 @@ typedef struct DrawingContext {
     SDL_Texture * cactus_texture;
     SDL_Texture * player_texture;
     
-    float dt;
 } DrawingContext;
