@@ -7,9 +7,9 @@ void cactus_update(Cactus * cactus) {
     cactus->entity.x += 1;
 }
 
-void cactus_draw(Cactus * cactus, Renderer * renderer) {
+void cactus_draw(Cactus * cactus, DrawingContext * drawing_context) {
     if (cactus->entity.texture == NULL) {
         printf("Invaild Texture");
     }
-    entity_draw(&cactus->entity, renderer);
+    entity_draw(&cactus->entity, drawing_context);
 }

@@ -1,3 +1,4 @@
+#pragma once
 #include "../entity/entity.h"
 #include <stdbool.h>
 
@@ -10,4 +11,4 @@ void cactus_init(Cactus * cactus);
 
 void cactus_update(Cactus * cactus);
 
-void cactus_draw(Cactus * cactus, Renderer * renderer);
+void cactus_draw(Cactus * cactus, DrawingContext * drawing_context);

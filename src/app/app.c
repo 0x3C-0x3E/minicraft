@@ -21,19 +21,25 @@ int app_init(App* app) {
         return 1;
     }
 
-    app->cactus_spritesheet = renderer_load_texture(&app->renderer, "res/cactus.png");
-    
-    app->entity_pool.entity_count = 0;
-    
-    Cactus * c = (Cactus *) entity_pool_add_entity(&app->entity_pool, Type_Cactus);
-    *c = (Cactus) {
+    app->drawing_context = (DrawingContext) {
+        .renderer = &app->renderer,
+        .cactus_texture = renderer_load_texture(&app->renderer, "res/cactus.png"),
+        .player_texture = renderer_load_texture(&app->renderer, "res/player.png"),
+        .dt = 0.0f,
+    };
+
+    app->entity_pool = (EntityPool) {
+        .entity_count = 0,
+    };
+
+    Player * p = (Player * ) entity_pool_add_entity(&app->entity_pool, Type_Player);
+    *p = (Player) {
         .entity = {
-            .x = 40,
-            .y = 0,
-            .img_rect = (SDL_Rect) {0, 0, 16, 16},
-            .texture = app->cactus_spritesheet,
+            .x = DISPLAY_WIDTH / 2,
+            .y = DISPLAY_HEIGHT - 50,
+            .img_rect = (SDL_Rect) {16, 0, 16, 16},
+            .texture = app->drawing_context.player_texture,
         },
-        .has_stings = true,
     };
     
     return 0;
@@ -65,7 +71,7 @@ void app_run(App * app) {
         //render
         renderer_clear(&app->renderer);
         
-        entity_pool_draw(&app->entity_pool, &app->renderer);
+        entity_pool_draw(&app->entity_pool, &app->drawing_context);
 
         renderer_present(&app->renderer);
 

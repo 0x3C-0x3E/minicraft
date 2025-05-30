@@ -9,12 +9,13 @@
 #include "../constants.h"
 
 #include "../renderer/renderer.h"
+#include "../renderer/drawing_context.h"
 #include "../entity_pool/entity_pool.h"
 
 typedef struct App {
     Renderer renderer;
-
-    SDL_Texture * cactus_spritesheet;
+    
+    DrawingContext drawing_context;
 
     EntityPool entity_pool;
 

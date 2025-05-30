@@ -1,6 +1,6 @@
 # Compiler and flags
 CC := gcc
-CFLAGS := -Wall -std=c11 `sdl2-config --cflags` -Wextra -g
+CFLAGS := -Wall -std=c11 `sdl2-config --cflags` -g
 LDFLAGS := `sdl2-config --libs` -lSDL2_image
 
 # Directories

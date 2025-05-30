@@ -14,9 +14,9 @@ void entity_update(Entity * entity) {
     entity->x ++;
 }
 
-void entity_draw(Entity * entity, Renderer * renderer) {
+void entity_draw(Entity * entity, DrawingContext * drawing_context) {
     if (entity->texture == NULL) {
         printf("INVAILD TEXTURE!\n");
     }
-    renderer_draw(renderer, entity->texture, entity->img_rect, entity->x, entity->y);
+    renderer_draw(drawing_context->renderer, entity->texture, entity->img_rect, entity->x, entity->y);
 }

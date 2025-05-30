@@ -11,6 +11,10 @@ void * entity_pool_add_entity(EntityPool * entity_pool, enum EntityType entity_t
             entity_pool->entities[entity_pool->entity_count] = malloc(sizeof(Cactus));
             entity_pool->entity_map[entity_pool->entity_count] = Type_Cactus;
             break;
+        case Type_Player:
+            entity_pool->entities[entity_pool->entity_count] = malloc(sizeof(Player));
+            entity_pool->entity_map[entity_pool->entity_count] = Type_Player;
+            break;
     }
     
     // the order is important here, messed this up already (:
@@ -35,18 +39,24 @@ void entity_pool_update(EntityPool * entity_pool) {
             case Type_Cactus:
                 cactus_update((Cactus * )entity_pool->entities[i]);
                 break;
+            case Type_Player:
+                player_update((Player * )entity_pool->entities[i]);
+                break;
         }
     }
 }
 
-void entity_pool_draw(EntityPool * entity_pool, Renderer * renderer) {
+void entity_pool_draw(EntityPool * entity_pool, DrawingContext * drawing_context) {
     for (unsigned int i = 0; i < entity_pool->entity_count; i++) {
         switch (entity_pool->entity_map[i]) {
             case Type_Entity:
-                entity_draw((Entity * )entity_pool->entities[i], renderer);
+                entity_draw((Entity * )entity_pool->entities[i], drawing_context);
                 break;
             case Type_Cactus:
-                cactus_draw((Cactus * )entity_pool->entities[i], renderer);
+                cactus_draw((Cactus * )entity_pool->entities[i], drawing_context);
+                break;
+            case Type_Player:
+                player_draw((Player * )entity_pool->entities[i], drawing_context);
                 break;
         }
     }
