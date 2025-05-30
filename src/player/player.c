@@ -17,8 +17,13 @@ void player_update(Player * player, GameState * game_state) {
     } else {
         player->entity.x_vel = 0;
     }
-
-    printf("Cactus x");
+    
+    for (unsigned int i = 0; i < game_state->entity_pool->entity_count; i++) {
+        if (game_state->entity_pool->entity_map[i] == Type_Cactus) {
+            Cactus * c = (Cactus * ) game_state->entity_pool->entities[i];
+            printf("Cactus X: %f\n", c->entity.x);
+        }
+    }
 
     player->entity.x += player->entity.x_vel * game_state->dt;
 

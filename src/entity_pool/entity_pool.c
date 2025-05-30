@@ -61,3 +61,7 @@ void entity_pool_draw(EntityPool * entity_pool, DrawingContext * drawing_context
         }
     }
 }
+
+void entity_pool_get_entities(EntityPool * entity_pool, void * entities[MAX_ENTITY_COUNT]) {
+
+}
