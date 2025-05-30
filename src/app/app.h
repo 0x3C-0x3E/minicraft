@@ -18,16 +18,18 @@ typedef struct App {
 
     float accumilator;
     float current_time;
-
     float global_time;
-
     float dt;
+
+    GameState game_state;
 
     EntityPool entity_pool;
 
     bool running;
 
 } App;
+
+int app_init_sdl(App * app);
 
 int app_init(App* app);
 

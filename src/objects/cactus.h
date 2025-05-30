@@ -1,5 +1,7 @@
 #pragma once
 #include "../entity/entity.h"
+#include "../renderer/drawing_context.h"
+#include "../entity_pool/game_state.h"
 #include <stdbool.h>
 
 typedef struct Cactus {
@@ -9,6 +11,6 @@ typedef struct Cactus {
 
 void cactus_init(Cactus * cactus);
 
-void cactus_update(Cactus * cactus, float dt);
+void cactus_update(Cactus * cactus, GameState * game_state);
 
 void cactus_draw(Cactus * cactus, DrawingContext * drawing_context);

@@ -1,13 +1,20 @@
 #pragma once
+typedef struct Entity Entity;
+typedef struct GameState GameState;
+
+
 #include "../entity/entity.h"
+#include "game_state.h"
 #include "../constants.h"
 
 #include "../player/player.h"
 #include "../objects/cactus.h"
 
-struct Entity;
-struct Cactus;
-struct Player;
+#include "../renderer/drawing_context.h"
+
+
+typedef struct Cactus Cactus;
+typedef struct Player Player;
 
 enum EntityType {
    Type_Entity,
@@ -29,6 +36,6 @@ void entity_pool_remove_entity(EntityPool * entity_pool, void * Entity);
 
 void entity_pool_clear(EntityPool * entity_pool);
 
-void entity_pool_update(EntityPool * entity_pool, float dt);
+void entity_pool_update(EntityPool * entity_pool, GameState * game_state);
 
 void entity_pool_draw(EntityPool * entity_pool, DrawingContext * drawing_context);

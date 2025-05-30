@@ -3,7 +3,7 @@
 
 void cactus_init(Cactus * cactus);
 
-void cactus_update(Cactus * cactus, float dt) {
+void cactus_update(Cactus * cactus, GameState * game_state) {
     cactus->entity.x += 1;
 }
 

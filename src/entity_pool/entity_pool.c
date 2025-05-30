@@ -30,17 +30,17 @@ void entity_pool_clear(EntityPool * entity_pool) {
 }
 
 
-void entity_pool_update(EntityPool * entity_pool, float dt) {
+void entity_pool_update(EntityPool * entity_pool, GameState * game_state) {
     for (unsigned int i = 0; i < entity_pool->entity_count; i++) {
         switch (entity_pool->entity_map[i]) {
             case Type_Entity:
-                entity_update((Entity * )entity_pool->entities[i], dt);
+                entity_update((Entity * )entity_pool->entities[i]);
                 break;
             case Type_Cactus:
-                cactus_update((Cactus * )entity_pool->entities[i], dt);
+                cactus_update((Cactus * )entity_pool->entities[i], game_state);
                 break;
             case Type_Player:
-                player_update((Player * )entity_pool->entities[i], dt);
+                player_update((Player * )entity_pool->entities[i], game_state);
                 break;
         }
     }

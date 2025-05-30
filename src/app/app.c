@@ -6,7 +6,8 @@
 #include <SDL2/SDL_video.h>
 #include <stdio.h>
 
-int app_init(App* app) {
+
+int app_init_sdl(App * app) {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("Could not init SDL!\n");
         return 1;
@@ -14,6 +15,16 @@ int app_init(App* app) {
 
     if (!IMG_Init(IMG_INIT_PNG)) {
         printf("Could not init SDL_img!\n");
+        return 1;
+    }
+
+    return 0;
+}
+
+
+int app_init(App* app) {
+
+    if (app_init_sdl(app) == 1) {
         return 1;
     }
 
@@ -36,14 +47,30 @@ int app_init(App* app) {
         .entity_count = 0,
     };
 
+    app->game_state = (GameState) {
+        .entity_pool = &app->entity_pool,
+        .dt = app->dt,
+    };
+
     Player * p = (Player * ) entity_pool_add_entity(&app->entity_pool, Type_Player);
     *p = (Player) {
         .entity = {
-            .x = DISPLAY_WIDTH / 2,
-            .y = DISPLAY_HEIGHT - 50,
+            .x = (float) DISPLAY_WIDTH / 2 - 8,
+            .y = (float) DISPLAY_HEIGHT - 50,
             .img_rect = (SDL_Rect) {16, 0, 16, 16},
             .texture = app->drawing_context.player_texture,
         },
+    };
+
+    Cactus * c = (Cactus * ) entity_pool_add_entity(&app->entity_pool, Type_Cactus);
+    *c = (Cactus) {
+        .entity = {
+            .x = 50,
+            .y = 40,
+            .img_rect = (SDL_Rect) {0, 0, 16, 16}, 
+            .texture = app->drawing_context.cactus_texture,
+        },
+
     };
     
     return 0;
@@ -85,7 +112,7 @@ void app_run(App * app) {
         }
 
                
-        entity_pool_update(&app->entity_pool, app->drawing_context.dt);
+        entity_pool_update(&app->entity_pool, &app->game_state);
         
 
         renderer_clear(&app->renderer);

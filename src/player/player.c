@@ -1,12 +1,13 @@
 #include "player.h"
 #include <SDL2/SDL_keyboard.h>
+#include <stdio.h>
 #include <wchar.h>
 
 void player_init(Player * player) {
 
 }
 
-void player_update(Player * player, float dt) {
+void player_update(Player * player, GameState * game_state) {
     const Uint8 * keystate = SDL_GetKeyboardState(NULL);
 
     if (keystate[SDL_SCANCODE_D]) {
@@ -17,8 +18,9 @@ void player_update(Player * player, float dt) {
         player->entity.x_vel = 0;
     }
 
+    printf("Cactus x");
 
-    player->entity.x += player->entity.x_vel * dt;
+    player->entity.x += player->entity.x_vel * game_state->dt;
 
 }
 

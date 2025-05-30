@@ -10,8 +10,8 @@ void entity_init(Entity * entity, int x, int y, SDL_Rect img_rect, SDL_Texture *
     entity->texture = texture;
 }
 
-void entity_update(Entity * entity, float dt) {
-    entity->x ++;
+void entity_update(Entity * entity) {
+
 }
 
 void entity_draw(Entity * entity, DrawingContext * drawing_context) {
