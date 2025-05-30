@@ -21,6 +21,10 @@ int app_init(App* app) {
         return 1;
     }
 
+    app->accumilator = 0.0f;
+    app->current_time = app_hire_time_in_seconds();
+    app->global_time = 0.0f;
+
     app->drawing_context = (DrawingContext) {
         .renderer = &app->renderer,
         .cactus_texture = renderer_load_texture(&app->renderer, "res/cactus.png"),
@@ -53,19 +57,36 @@ void app_quit(App* app) {
 void app_run(App * app) {
     while (app->running) {
 
-        SDL_Event e;
-        while (SDL_PollEvent(&e) != 0) {
-            if (e.type == SDL_QUIT) {
-                app_quit(app);
-                entity_pool_clear(&app->entity_pool);
-                SDL_Quit();
-                app->running = false;
-                return;
+        int start_ticks = SDL_GetTicks();
+        float new_time = app_hire_time_in_seconds();
+        float frame_time = new_time - app->current_time;
+
+        app->dt = frame_time;
+        app->drawing_context.dt = frame_time;
+
+        app->current_time = new_time;
+        app->accumilator += frame_time; 
+
+        app->global_time += 1.0f;
+
+        while (app->accumilator >= TIME_STEP) {
+            SDL_Event e;
+            while (SDL_PollEvent(&e) != 0) {
+                if (e.type == SDL_QUIT) {
+                    app_quit(app);
+                    entity_pool_clear(&app->entity_pool);
+                    SDL_Quit();
+                    app->running = false;
+                    return;
+                }
             }
+
+            app->accumilator -= TIME_STEP;
         }
-        
+
+               
         //update
-        entity_pool_update(&app->entity_pool);
+        entity_pool_update(&app->entity_pool, app->drawing_context.dt);
         
 
         //render
@@ -74,8 +95,18 @@ void app_run(App * app) {
         entity_pool_draw(&app->entity_pool, &app->drawing_context);
 
         renderer_present(&app->renderer);
+        
+        int frame_ticks = SDL_GetTicks() - start_ticks;
 
-        SDL_Delay(16);
+        if (frame_ticks < 1000/REFRESH_RATE) {
+            SDL_Delay(1000 / REFRESH_RATE - frame_ticks);
+        }
     }
 }
 
+float app_hire_time_in_seconds() {
+    float t = SDL_GetTicks();
+    t *= 0.001f;
+
+    return t;
+}

@@ -4,8 +4,11 @@
 #include <SDL2/SDL.h>
 
 typedef struct Entity {
-   int x;
-   int y;
+   float x;
+   float y;
+
+   float x_vel;
+   float y_vel;
 
    SDL_Rect img_rect;
    SDL_Texture * texture;
@@ -15,4 +18,4 @@ void entity_init(Entity * entity, int x, int y, SDL_Rect img_rect, SDL_Texture *
 
 void entity_draw(Entity * entity, DrawingContext * drawing_context);
 
-void entity_update(Entity * entity);
+void entity_update(Entity * entity, float dt);

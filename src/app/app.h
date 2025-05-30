@@ -14,8 +14,14 @@
 
 typedef struct App {
     Renderer renderer;
-    
     DrawingContext drawing_context;
+
+    float accumilator;
+    float current_time;
+
+    float global_time;
+
+    float dt;
 
     EntityPool entity_pool;
 
@@ -28,3 +34,5 @@ int app_init(App* app);
 void app_quit(App* app);
 
 void app_run(App * app);
+
+float app_hire_time_in_seconds();

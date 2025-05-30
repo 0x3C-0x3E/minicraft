@@ -29,6 +29,6 @@ void entity_pool_remove_entity(EntityPool * entity_pool, void * Entity);
 
 void entity_pool_clear(EntityPool * entity_pool);
 
-void entity_pool_update(EntityPool * entity_pool);
+void entity_pool_update(EntityPool * entity_pool, float dt);
 
 void entity_pool_draw(EntityPool * entity_pool, DrawingContext * drawing_context);
