@@ -43,8 +43,8 @@ void entity_pool_remove_entity(EntityPool * entity_pool, unsigned int index) {
         entity_pool->entity_map[i - 1] = entity_pool->entity_map[i];
     }
 
-    entity_pool->entities[entity_pool->entity_count - 1] = NULL;
-    entity_pool->entity_map[entity_pool->entity_count - 1] = 0;
+    // entity_pool->entities[entity_pool->entity_count - 1] = NULL;
+    // entity_pool->entity_map[entity_pool->entity_count - 1] = 0;
 
     entity_pool->entity_count --;
 }
