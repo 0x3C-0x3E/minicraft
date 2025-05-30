@@ -1,9 +1,14 @@
 #pragma once
 #include "../entity/entity.h"
+#include "../objects/cactus.h"
 #include "../constants.h"
 
+struct Entity;
+struct Cactus;
+
 enum EntityType {
-   Type_Entity
+   Type_Entity,
+   Type_Cactus,
 }; 
 
 typedef struct EntityPool {
@@ -14,8 +19,12 @@ typedef struct EntityPool {
 
 } EntityPool;
 
-void * entity_pool_add_entity(EntityPool * entity_pool, enum EntityType entity_type, int x, int y, SDL_Rect img_rect, SDL_Texture * texture);
+void * entity_pool_add_entity(EntityPool * entity_pool, enum EntityType entity_type);
 
 void entity_pool_remove_entity(EntityPool * entity_pool, void * Entity);
 
 void entity_pool_clear(EntityPool * entity_pool);
+
+void entity_pool_update(EntityPool * entity_pool);
+
+void entity_pool_draw(EntityPool * entity_pool, Renderer * renderer);

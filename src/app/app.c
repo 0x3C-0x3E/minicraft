@@ -25,8 +25,16 @@ int app_init(App* app) {
     
     app->entity_pool.entity_count = 0;
     
-    entity_pool_add_entity(&app->entity_pool, Type_Entity, 40, 0, (SDL_Rect) {0, 0, 16, 16}, app->cactus_spritesheet);
-
+    Cactus * c = (Cactus *) entity_pool_add_entity(&app->entity_pool, Type_Cactus);
+    *c = (Cactus) {
+        .entity = {
+            .x = 40,
+            .y = 0,
+            .img_rect = (SDL_Rect) {0, 0, 16, 16},
+            .texture = app->cactus_spritesheet,
+        },
+        .has_stings = true,
+    };
     
     return 0;
 }
@@ -49,17 +57,15 @@ void app_run(App * app) {
                 return;
             }
         }
+        
+        //update
+        entity_pool_update(&app->entity_pool);
+        
 
-        for (unsigned int i = 0; i < app->entity_pool.entity_count; i++) {
-            Entity * e = (Entity*)app->entity_pool.entities[i];
-            entity_update(e);
-        }
-
+        //render
         renderer_clear(&app->renderer);
-        for (unsigned int i = 0; i < app->entity_pool.entity_count; i++) {
-            Entity * e = (Entity*)app->entity_pool.entities[i];
-            entity_draw(e, &app->renderer);
-        }
+        
+        entity_pool_draw(&app->entity_pool, &app->renderer);
 
         renderer_present(&app->renderer);
 
