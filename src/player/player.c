@@ -6,6 +6,7 @@
 
 void player_init(Player * player) {
     player->speed = 100;
+    player->firing = false;
 }
 
 void player_update(Player * player, GameState * game_state) {
@@ -15,21 +16,26 @@ void player_update(Player * player, GameState * game_state) {
         player->entity.x_vel = player->speed;
     } else if (keystate[SDL_SCANCODE_A]) {
         player->entity.x_vel = -player->speed;
-    } else if (keystate[SDL_SCANCODE_SPACE]) {
-        Cactus * c = entity_pool_add_entity(game_state->entity_pool, Type_Cactus);
-        *c = (Cactus) {
+    } else { 
+        player->entity.x_vel = 0;
+    }
+
+    if (keystate[SDL_SCANCODE_SPACE] && !player->firing) {
+        Bullet * c = entity_pool_add_entity(game_state->entity_pool, Type_Bullet);
+        *c = (Bullet) {
             .entity = {
-                .x = 50,
-                .y = 40,
+                .x = player->entity.x,
+                .y = player->entity.y,
                 .img_rect = (SDL_Rect) {0, 0, 16, 16}, 
-                .texture = game_state->drawing_context->cactus_texture,
+                .texture = game_state->drawing_context->bullet_texture,
             },
 
         };
-
-    } else {
-        player->entity.x_vel = 0;
+        player->firing = true;
+    } else if (!keystate[SDL_SCANCODE_SPACE] && player->firing) {
+        player->firing = false;
     }
+
     
     for (unsigned int i = 0; i < game_state->entity_pool->entity_count; i++) {
         if (game_state->entity_pool->entity_map[i] == Type_Cactus) {

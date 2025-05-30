@@ -20,6 +20,10 @@ void * entity_pool_add_entity(EntityPool * entity_pool, enum EntityType entity_t
             entity_pool->entities[entity_pool->entity_count] = malloc(sizeof(Player));
             entity_pool->entity_map[entity_pool->entity_count] = Type_Player;
             break;
+        case Type_Bullet:
+            entity_pool->entities[entity_pool->entity_count] = malloc(sizeof(Bullet));
+            entity_pool->entity_map[entity_pool->entity_count] = Type_Bullet;
+            break;
     }
     
     // the order is important here, messed this up already (:
@@ -68,6 +72,9 @@ void entity_pool_update(EntityPool * entity_pool, GameState * game_state) {
             case Type_Player:
                 player_update((Player * )entity_pool->entities[i], game_state);
                 break;
+            case Type_Bullet:
+                bullet_update((Bullet * )entity_pool->entities[i], game_state);
+                break;
         }
     }
 
@@ -90,6 +97,9 @@ void entity_pool_draw(EntityPool * entity_pool, DrawingContext * drawing_context
                 break;
             case Type_Player:
                 player_draw((Player * )entity_pool->entities[i], drawing_context);
+                break;
+            case Type_Bullet:
+                bullet_draw((Bullet * )entity_pool->entities[i], drawing_context);
                 break;
         }
     }

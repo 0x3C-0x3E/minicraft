@@ -9,17 +9,20 @@ typedef struct GameState GameState;
 
 #include "../player/player.h"
 #include "../objects/cactus.h"
+#include "../objects/bullet.h"
 
 #include "../renderer/drawing_context.h"
 
 
 typedef struct Cactus Cactus;
 typedef struct Player Player;
+typedef struct Bullet Bullet;
 
 enum EntityType {
    Type_Entity,
    Type_Cactus,
    Type_Player,
+   Type_Bullet,
 }; 
 
 typedef struct EntityPool {

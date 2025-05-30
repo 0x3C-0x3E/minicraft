@@ -7,5 +7,6 @@ typedef struct DrawingContext {
     Renderer * renderer;
     SDL_Texture * cactus_texture;
     SDL_Texture * player_texture;
+    SDL_Texture * bullet_texture;
     
 } DrawingContext;

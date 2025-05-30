@@ -40,6 +40,7 @@ int app_init(App* app) {
         .renderer = &app->renderer,
         .cactus_texture = renderer_load_texture(&app->renderer, "res/cactus.png"),
         .player_texture = renderer_load_texture(&app->renderer, "res/player.png"),
+        .bullet_texture = renderer_load_texture(&app->renderer, "res/bullet.png")
     };
 
     app->entity_pool = (EntityPool) {

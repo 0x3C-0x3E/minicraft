@@ -6,8 +6,9 @@
 
 typedef struct Player {
     Entity entity;
-
+    
     int speed;
+    bool firing;
 
 } Player;
 
