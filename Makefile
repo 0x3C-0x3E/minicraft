@@ -6,7 +6,7 @@ LDFLAGS := `sdl2-config --libs` -lSDL2_image
 # Directories
 SRC_DIR := src
 BUILD_DIR := build
-BIN := $(BUILD_DIR)/game
+BIN := $(BUILD_DIR)/project
 
 # Find all .c source files in SRC_DIR recursively
 SRC_FILES := $(shell find $(SRC_DIR) -name '*.c')

@@ -9,7 +9,7 @@ don't.
 git clone https://github.com/0x3C-0x3E/minicraft.git
 make -j8
 cd build
-./game
+./project
 
 ```
 
