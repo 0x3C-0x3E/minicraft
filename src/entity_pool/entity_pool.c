@@ -74,10 +74,9 @@ void entity_pool_update(EntityPool * entity_pool, GameState * game_state) {
     for (unsigned int i = 0; i < entity_pool->entity_count; i++) {
         if (entity_pool->kill_bitmask[i] == 1) {
             entity_pool_remove_entity(entity_pool, i);
+            entity_pool->kill_bitmask[i] = 0;
         }
     }
-    // scuffed again
-    memset(&entity_pool->kill_bitmask, 0, sizeof(int));
 }
 
 void entity_pool_draw(EntityPool * entity_pool, DrawingContext * drawing_context) {
