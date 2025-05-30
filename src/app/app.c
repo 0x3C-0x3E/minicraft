@@ -45,10 +45,14 @@ int app_init(App* app) {
     app->entity_pool = (EntityPool) {
         .entity_count = 0,
     };
+    
+    // scuffed but should work
+    memset(&app->entity_pool.entity_count, 0, sizeof(int));
 
     app->game_state = (GameState) {
         .entity_pool = &app->entity_pool,
         .dt = app->dt,
+        .drawing_context = &app->drawing_context,
     };
 
     Player * p = (Player * ) entity_pool_add_entity(&app->entity_pool, Type_Player);

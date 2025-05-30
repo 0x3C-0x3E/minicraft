@@ -1,5 +1,6 @@
 #include "player.h"
 #include <SDL2/SDL_keyboard.h>
+#include <SDL2/SDL_scancode.h>
 #include <stdio.h>
 #include <wchar.h>
 
@@ -14,6 +15,18 @@ void player_update(Player * player, GameState * game_state) {
         player->entity.x_vel = player->speed;
     } else if (keystate[SDL_SCANCODE_A]) {
         player->entity.x_vel = -player->speed;
+    } else if (keystate[SDL_SCANCODE_SPACE]) {
+        Cactus * c = entity_pool_add_entity(game_state->entity_pool, Type_Cactus);
+        *c = (Cactus) {
+            .entity = {
+                .x = 50,
+                .y = 40,
+                .img_rect = (SDL_Rect) {0, 0, 16, 16}, 
+                .texture = game_state->drawing_context->cactus_texture,
+            },
+
+        };
+
     } else {
         player->entity.x_vel = 0;
     }
@@ -21,7 +34,7 @@ void player_update(Player * player, GameState * game_state) {
     for (unsigned int i = 0; i < game_state->entity_pool->entity_count; i++) {
         if (game_state->entity_pool->entity_map[i] == Type_Cactus) {
             Cactus * c = (Cactus * ) game_state->entity_pool->entities[i];
-            // printf("Cactus X: %f\n", c->entity.x);
+            // entity_pool_mark_entity_for_removal(game_state->entity_pool, i);
         }
     }
 
