@@ -85,11 +85,9 @@ void app_run(App * app) {
         }
 
                
-        //update
         entity_pool_update(&app->entity_pool, app->drawing_context.dt);
         
 
-        //render
         renderer_clear(&app->renderer);
         
         entity_pool_draw(&app->entity_pool, &app->drawing_context);
