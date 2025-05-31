@@ -1,5 +1,6 @@
 #include "monster.h"
 #include "../utils.h"
+#include <stdio.h>
 
 void monster_init(Monster * monster) {
     monster->speed = -100;
@@ -10,6 +11,10 @@ void monster_init(Monster * monster) {
 }
 
 void monster_update(Monster * monster, GameState * game_state) {
+
+    monster->entity.x += monster->entity.x_vel * game_state->dt;
+    monster->entity.y += monster->entity.y_vel * game_state->dt;
+
     if (monster->entity.x < 0 || monster->entity.x + 16 > DISPLAY_WIDTH) {
         monster->entity.x_vel *= -1;
         monster->entity.y_vel *= 1.1;
@@ -20,9 +25,11 @@ void monster_update(Monster * monster, GameState * game_state) {
             monster->entity.x = DISPLAY_WIDTH - 16;
         }
     }
-
-    monster->entity.x += monster->entity.x_vel * game_state->dt;
-    monster->entity.y += monster->entity.y_vel * game_state->dt;
+    
+    if (monster->entity.y >= DISPLAY_HEIGHT) {
+        entity_pool_mark_entity_for_removal(game_state->entity_pool, entity_pool_get_index(game_state->entity_pool, (void * )monster));
+        printf("Game Over!\n");
+    }
 
     for (unsigned int i = 0; i < game_state->entity_pool->entity_count; i ++) {
         if (game_state->entity_pool->entity_map[i] == Type_Bullet) {

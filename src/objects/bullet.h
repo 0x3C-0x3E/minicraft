@@ -7,6 +7,9 @@
 
 typedef struct Bullet {
     Entity entity;
+
+    float animation_counter;
+    float max_animation_counter;
 } Bullet;
 
 void bullet_update(Bullet * bullet, GameState * game_state);
