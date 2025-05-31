@@ -38,9 +38,10 @@ int app_init(App* app) {
 
     app->drawing_context = (DrawingContext) {
         .renderer = &app->renderer,
-        .cactus_texture = renderer_load_texture(&app->renderer, "res/cactus.png"),
-        .player_texture = renderer_load_texture(&app->renderer, "res/player.png"),
-        .bullet_texture = renderer_load_texture(&app->renderer, "res/bullet.png")
+        .cactus_texture  = renderer_load_texture(&app->renderer, "res/cactus.png"),
+        .player_texture  = renderer_load_texture(&app->renderer, "res/player.png"),
+        .bullet_texture  = renderer_load_texture(&app->renderer, "res/bullet.png"),
+        .monster_texture = renderer_load_texture(&app->renderer, "res/monster.png"),
     };
 
     app->entity_pool = (EntityPool) {
@@ -115,6 +116,19 @@ void app_run(App * app) {
             }
 
             app->accumilator -= TIME_STEP;
+        }
+
+        if ((int)app->global_time % 100 == 0) {
+            Monster * m = entity_pool_add_entity(&app->entity_pool, Type_Monster);
+            *m = (Monster) {
+                .entity = {
+                    .x = DISPLAY_WIDTH / 2,
+                    .y = 50.0f,
+                    .img_rect = (SDL_Rect) {0, 0, 16, 16},
+                    .texture = app->drawing_context.monster_texture,
+                },
+            };
+            monster_init(m);
         }
 
                

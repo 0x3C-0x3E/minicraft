@@ -19,8 +19,5 @@ void cactus_update(Cactus * cactus, GameState * game_state) {
 }
 
 void cactus_draw(Cactus * cactus, DrawingContext * drawing_context) {
-    if (cactus->entity.texture == NULL) {
-        printf("Invaild Texture");
-    }
     entity_draw(&cactus->entity, drawing_context);
 }
