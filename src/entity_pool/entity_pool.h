@@ -39,6 +39,8 @@ typedef struct EntityPool {
 
 void * entity_pool_add_entity(EntityPool * entity_pool, enum EntityType entity_type);
 
+int entity_pool_get_index(EntityPool * entity_pool, void * entity);
+
 void entity_pool_mark_entity_for_removal(EntityPool * entity_pool, unsigned int index);
 
 void entity_pool_remove_entity(EntityPool * entity_pool, unsigned int index);

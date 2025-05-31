@@ -12,6 +12,8 @@
 #include "../renderer/drawing_context.h"
 #include "../entity_pool/entity_pool.h"
 
+#include "../spawner/spawner_monster.h"
+
 typedef struct App {
     Renderer renderer;
     DrawingContext drawing_context;
@@ -24,6 +26,8 @@ typedef struct App {
     GameState game_state;
 
     EntityPool entity_pool;
+
+    SpawnerMonster spawner_monster;
 
     bool running;
 

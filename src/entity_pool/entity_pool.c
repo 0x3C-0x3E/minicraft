@@ -40,6 +40,16 @@ void entity_pool_mark_entity_for_removal(EntityPool * entity_pool, unsigned int 
     entity_pool->kill_bitmask[index] = 1;
 }
 
+int entity_pool_get_index(EntityPool * entity_pool, void * entity) {
+    int index = 0;
+    for (unsigned int i = index + 1; i < entity_pool->entity_count; i++) {
+        if (entity == entity_pool->entities[i]) {
+            index = i;
+        }
+    }
+    return index;
+}
+
 void entity_pool_remove_entity(EntityPool * entity_pool, unsigned int index) {
     
     if (index >= entity_pool->entity_count) return;

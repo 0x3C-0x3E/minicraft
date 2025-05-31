@@ -68,17 +68,8 @@ int app_init(App* app) {
     };
 
     player_init(p);
-
-    Cactus * c = (Cactus * ) entity_pool_add_entity(&app->entity_pool, Type_Cactus);
-    *c = (Cactus) {
-        .entity = {
-            .x = 50,
-            .y = 40,
-            .img_rect = (SDL_Rect) {0, 0, 16, 16}, 
-            .texture = app->drawing_context.cactus_texture,
-        },
-
-    };
+    
+    spawner_monster_init(&app->spawner_monster, &app->game_state);
     
     return 0;
 }
@@ -117,23 +108,10 @@ void app_run(App * app) {
 
             app->accumilator -= TIME_STEP;
         }
-
-        if ((int)app->global_time % 100 == 0) {
-            Monster * m = entity_pool_add_entity(&app->entity_pool, Type_Monster);
-            *m = (Monster) {
-                .entity = {
-                    .x = DISPLAY_WIDTH / 2,
-                    .y = 50.0f,
-                    .img_rect = (SDL_Rect) {0, 0, 16, 16},
-                    .texture = app->drawing_context.monster_texture,
-                },
-            };
-            monster_init(m);
-        }
-
+        
+        spawner_monster_update(&app->spawner_monster, &app->game_state);
                
         entity_pool_update(&app->entity_pool, &app->game_state);
-        
 
         renderer_clear(&app->renderer);
         
