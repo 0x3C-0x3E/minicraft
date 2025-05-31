@@ -38,18 +38,23 @@ int app_init(App* app) {
 
     app->drawing_context = (DrawingContext) {
         .renderer = &app->renderer,
-        .cactus_texture = renderer_load_texture(&app->renderer, "res/cactus.png"),
-        .player_texture = renderer_load_texture(&app->renderer, "res/player.png"),
-        .dt = 0.0f,
+        .cactus_texture  = renderer_load_texture(&app->renderer, "res/cactus.png"),
+        .player_texture  = renderer_load_texture(&app->renderer, "res/player.png"),
+        .bullet_texture  = renderer_load_texture(&app->renderer, "res/bullet.png"),
+        .monster_texture = renderer_load_texture(&app->renderer, "res/monster.png"),
     };
 
     app->entity_pool = (EntityPool) {
         .entity_count = 0,
     };
+    
+    // scuffed but should work
+    memset(&app->entity_pool.entity_count, 0, sizeof(int));
 
     app->game_state = (GameState) {
         .entity_pool = &app->entity_pool,
         .dt = app->dt,
+        .drawing_context = &app->drawing_context,
     };
 
     Player * p = (Player * ) entity_pool_add_entity(&app->entity_pool, Type_Player);
@@ -61,6 +66,8 @@ int app_init(App* app) {
             .texture = app->drawing_context.player_texture,
         },
     };
+
+    player_init(p);
 
     Cactus * c = (Cactus * ) entity_pool_add_entity(&app->entity_pool, Type_Cactus);
     *c = (Cactus) {
@@ -89,7 +96,7 @@ void app_run(App * app) {
         float frame_time = new_time - app->current_time;
 
         app->dt = frame_time;
-        app->drawing_context.dt = frame_time;
+        app->game_state.dt = frame_time;
 
         app->current_time = new_time;
         app->accumilator += frame_time; 
@@ -109,6 +116,19 @@ void app_run(App * app) {
             }
 
             app->accumilator -= TIME_STEP;
+        }
+
+        if ((int)app->global_time % 100 == 0) {
+            Monster * m = entity_pool_add_entity(&app->entity_pool, Type_Monster);
+            *m = (Monster) {
+                .entity = {
+                    .x = DISPLAY_WIDTH / 2,
+                    .y = 50.0f,
+                    .img_rect = (SDL_Rect) {0, 0, 16, 16},
+                    .texture = app->drawing_context.monster_texture,
+                },
+            };
+            monster_init(m);
         }
 
                

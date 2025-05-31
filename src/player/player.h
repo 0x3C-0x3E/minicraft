@@ -6,6 +6,10 @@
 
 typedef struct Player {
     Entity entity;
+    
+    int speed;
+    bool firing;
+
 } Player;
 
 void player_init(Player * player);
