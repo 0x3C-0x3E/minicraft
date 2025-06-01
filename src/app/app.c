@@ -1,9 +1,6 @@
 #include "app.h"
+#include <stdbool.h>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_render.h>
-#include <SDL2/SDL_timer.h>
-#include <SDL2/SDL_video.h>
 #include <stdio.h>
 
 
@@ -43,6 +40,8 @@ int app_init(App* app) {
         .bullet_texture  = renderer_load_texture(&app->renderer, "res/bullet.png"),
         .monster_texture = renderer_load_texture(&app->renderer, "res/monster.png"),
         .explosion_texture = renderer_load_texture(&app->renderer, "res/explosion.png"),
+        .bg_texture = renderer_load_texture(&app->renderer, "res/bg.png"),
+        .bg_scroll_y = 0.0f,
     };
 
     app->entity_pool = (EntityPool) {
@@ -115,6 +114,22 @@ void app_run(App * app) {
         entity_pool_update(&app->entity_pool, &app->game_state);
 
         renderer_clear(&app->renderer);
+
+        app->drawing_context.bg_scroll_y += 10 * app->dt;
+        if (app->drawing_context.bg_scroll_y >= 64.0f) {
+            app->drawing_context.bg_scroll_y = 0;
+        }
+        
+        for (int y = -1; y < DISPLAY_HEIGHT / 64; y++) {
+            for (int x = 0; x < DISPLAY_WIDTH / 128; x++) {
+                renderer_draw(&app->renderer,
+                                 app->drawing_context.bg_texture,
+                                 (SDL_Rect) {0, 0, 128, 64}, 
+                                 x * 128,
+                                 y*64 + app->drawing_context.bg_scroll_y
+                );
+            }
+        }
         
         entity_pool_draw(&app->entity_pool, &app->drawing_context);
 

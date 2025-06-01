@@ -11,5 +11,8 @@ typedef struct DrawingContext {
     SDL_Texture * monster_texture;
 
     SDL_Texture * explosion_texture;
+
+    SDL_Texture * bg_texture;
+    float bg_scroll_y;
     
 } DrawingContext;
