@@ -39,6 +39,7 @@ int app_init(App* app) {
         .renderer = &app->renderer,
         .cactus_texture  = renderer_load_texture(&app->renderer, "res/cactus.png"),
         .player_texture  = renderer_load_texture(&app->renderer, "res/player.png"),
+        .booster_texture = renderer_load_texture(&app->renderer, "res/booster.png"),
         .bullet_texture  = renderer_load_texture(&app->renderer, "res/bullet.png"),
         .monster_texture = renderer_load_texture(&app->renderer, "res/monster.png"),
         .explosion_texture = renderer_load_texture(&app->renderer, "res/explosion.png"),

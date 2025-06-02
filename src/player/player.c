@@ -6,6 +6,10 @@
 void player_init(Player * player) {
     player->speed = 100;
     player->firing = false;
+
+    player->animation_counter = 0;
+    player->max_animation_counter = 0.5f;
+    player->booster_rect = (SDL_Rect) {0, 0, 16, 16};
 }
 
 void player_update(Player * player, GameState * game_state) {
@@ -40,8 +44,16 @@ void player_update(Player * player, GameState * game_state) {
 
     player->entity.x += player->entity.x_vel * game_state->dt;
 
+    player->animation_counter += 1 + game_state->dt;
+    if (player->animation_counter >= player->max_animation_counter) {
+        player->animation_counter = 0;
+        player->booster_rect.x = (player->booster_rect.x == 0) ? 16 : 0;
+    }
+
 }
 
 void player_draw(Player * player, DrawingContext * drawing_context) {
     entity_draw(&player->entity, drawing_context);
+
+    renderer_draw(drawing_context->renderer, drawing_context->booster_texture, player->booster_rect, player->entity.x, player->entity.y + 16);
 }

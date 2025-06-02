@@ -10,6 +10,11 @@ typedef struct Player {
     int speed;
     bool firing;
 
+    float animation_counter;
+    float max_animation_counter;
+
+    SDL_Rect booster_rect;
+
 } Player;
 
 void player_init(Player * player);
