@@ -1,4 +1,5 @@
 #include "app/app.h"
+#include <stdio.h>
 
 int main(int argc, char* argv[]) {
     App app;

@@ -29,6 +29,8 @@ int app_init(App* app) {
         return 1;
     }
 
+    app->running = true;
+
     app->accumilator = 0.0f;
     app->current_time = app_hire_time_in_seconds();
     app->global_time = 0.0f;
