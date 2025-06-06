@@ -20,4 +20,5 @@ SDL_Texture * renderer_load_texture(Renderer * renderer, const char * filepath);
 
 void renderer_draw(Renderer * renderer,SDL_Texture * texture, SDL_Rect img_rect, float x, float y);
 
-void renderer_draw_ex(Renderer * renderer,SDL_Texture * texture, SDL_Rect img_rect, float x, float y, bool flip_v, bool flip_h);
+void renderer_draw_p(Renderer * renderer,SDL_Texture * texture, SDL_Rect img_rect, float x, float y);
+

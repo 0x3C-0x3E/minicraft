@@ -44,6 +44,14 @@ void player_update(Player * player, GameState * game_state) {
 
     player->entity.x += player->entity.x_vel * game_state->dt;
 
+    if (player->entity.x <= 0) {
+        player->entity.x = 0;
+    }
+
+    if (player->entity.x >= DISPLAY_WIDTH - 16) {
+        player->entity.x = DISPLAY_WIDTH - 16;
+    }
+
     player->animation_counter += 1 + game_state->dt;
     if (player->animation_counter >= player->max_animation_counter) {
         player->animation_counter = 0;

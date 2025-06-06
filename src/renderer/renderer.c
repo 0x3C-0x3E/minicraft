@@ -69,7 +69,7 @@ void renderer_draw(Renderer * renderer, SDL_Texture * texture, SDL_Rect img_rect
     SDL_RenderCopy(renderer->sdl_renderer, texture, &src, &dst);
 }
 
-void renderer_draw_ex(Renderer * renderer,SDL_Texture * texture, SDL_Rect img_rect, float x, float y, bool flip_v, bool flip_h) {
+void renderer_draw_p(Renderer * renderer,SDL_Texture * texture, SDL_Rect img_rect, float x, float y) {
     SDL_Rect src;
 
     src.x = img_rect.x;
@@ -78,22 +78,13 @@ void renderer_draw_ex(Renderer * renderer,SDL_Texture * texture, SDL_Rect img_re
     src.w = img_rect.w;
     src.h = img_rect.h;
 
-    SDL_Rect dst;
+    SDL_FRect dst;
     dst.x = x * RENDER_SCALE;
     dst.y = y * RENDER_SCALE;
 
     dst.w = src.w * RENDER_SCALE;
     dst.h = src.h * RENDER_SCALE;
-
-    SDL_RendererFlip flip;
-
-    if (flip_v) {
-        flip = SDL_FLIP_VERTICAL;
-    } else if (flip_h){
-        flip = SDL_FLIP_HORIZONTAL;
-    } else {
-        flip = SDL_FLIP_NONE;
-    }
     
-    SDL_RenderCopyEx(renderer->sdl_renderer, texture, &src, &dst, 0, NULL, flip);
+    SDL_RenderCopyF(renderer->sdl_renderer, texture, &src, &dst);
 }
+

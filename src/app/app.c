@@ -125,7 +125,7 @@ void app_run(App * app) {
         
         for (int y = -1; y < DISPLAY_HEIGHT / 64; y++) {
             for (int x = 0; x < DISPLAY_WIDTH / 128; x++) {
-                renderer_draw(&app->renderer,
+                renderer_draw_p(&app->renderer,
                                  app->drawing_context.bg_texture,
                                  (SDL_Rect) {0, 0, 128, 64}, 
                                  x * 128,
