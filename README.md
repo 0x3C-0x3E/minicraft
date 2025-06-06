@@ -15,3 +15,5 @@ cd build
 
 ## What is this?
 This is a way too overengineered game written in C with pure SDL. It is mostly just a learning exercise and probably wont be developed much further
+
+## Screenshots
