@@ -10,6 +10,10 @@ void player_init(Player * player) {
     player->animation_counter = 0;
     player->max_animation_counter = 0.5f;
     player->booster_rect = (SDL_Rect) {0, 0, 16, 16};
+
+
+    player->reload_timer = 0.0f;
+    player->max_reload_timer = 0.5f;
 }
 
 void player_update(Player * player, GameState * game_state) {
@@ -26,7 +30,9 @@ void player_update(Player * player, GameState * game_state) {
         player->entity.x_vel = 0;
     }
 
-    if (keystate[SDL_SCANCODE_SPACE] && !player->firing) {
+    player->reload_timer += 1 * game_state->dt;
+
+    if (keystate[SDL_SCANCODE_SPACE] && !player->firing && player->reload_timer >= player->max_reload_timer) {
         Bullet * c = entity_pool_add_entity(game_state->entity_pool, Type_Bullet);
         *c = (Bullet) {
             .entity = {
@@ -38,6 +44,7 @@ void player_update(Player * player, GameState * game_state) {
         };
 
         player->firing = true;
+        player->reload_timer = 0;
     } else if (!keystate[SDL_SCANCODE_SPACE] && player->firing) {
         player->firing = false;
     }

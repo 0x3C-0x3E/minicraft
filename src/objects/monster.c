@@ -80,7 +80,7 @@ void monster_update_check_for_collision(Monster * monster, GameState * game_stat
         if (game_state->entity_pool->entity_map[i] == Type_Bullet) {
             Bullet * b = (Bullet * ) game_state->entity_pool->entities[i];
             if (rects_collide(monster->entity.x, monster->entity.y, 16, 16, b->entity.x, b->entity.y, 16, 16)) {
-                // entity_pool_mark_entity_for_removal(game_state->entity_pool, entity_pool_get_index(game_state->entity_pool, (void * )monster));
+                entity_pool_mark_entity_for_removal(game_state->entity_pool, entity_pool_get_index(game_state->entity_pool, (void * )b));
                 monster->is_exploding = true;
                 monster->entity.img_rect = (SDL_Rect) {0, 0, 16, 16};
                 monster->entity.texture = game_state->drawing_context->explosion_texture;

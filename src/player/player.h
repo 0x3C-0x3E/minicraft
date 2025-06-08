@@ -9,6 +9,8 @@ typedef struct Player {
     
     int speed;
     bool firing;
+    float reload_timer;
+    float max_reload_timer;
 
     float animation_counter;
     float max_animation_counter;
