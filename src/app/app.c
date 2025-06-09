@@ -42,6 +42,7 @@ int app_init(App* app) {
         .booster_texture = renderer_load_texture(&app->renderer, "res/booster.png"),
         .bullet_texture  = renderer_load_texture(&app->renderer, "res/bullet.png"),
         .monster_texture = renderer_load_texture(&app->renderer, "res/monster.png"),
+        .monster_bullet_texture = renderer_load_texture(&app->renderer, "res/monster_bullet.png"),
         .explosion_texture = renderer_load_texture(&app->renderer, "res/explosion.png"),
         .bg_texture = renderer_load_texture(&app->renderer, "res/bg.png"),
         .bg_scroll_y = 0.0f,

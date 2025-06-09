@@ -12,6 +12,8 @@ typedef struct Bullet {
     float max_animation_counter;
 } Bullet;
 
+void bullet_init(Bullet * bullet, GameState * game_state, float y_vel);
+
 void bullet_update(Bullet * bullet, GameState * game_state);
 
 void bullet_draw(Bullet * bullet, DrawingContext * drawing_context);

@@ -6,7 +6,7 @@
 int renderer_init(Renderer * renderer) {
 
     renderer->sdl_window = SDL_CreateWindow(
-        "Minicraft",
+        "Space Invaders",
 		SDL_WINDOWPOS_UNDEFINED, 
 		SDL_WINDOWPOS_UNDEFINED, 
 		SCREEN_WIDTH, 

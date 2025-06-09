@@ -33,8 +33,8 @@ void player_update(Player * player, GameState * game_state) {
     player->reload_timer += 1 * game_state->dt;
 
     if (keystate[SDL_SCANCODE_SPACE] && !player->firing && player->reload_timer >= player->max_reload_timer) {
-        Bullet * c = entity_pool_add_entity(game_state->entity_pool, Type_Bullet);
-        *c = (Bullet) {
+        Bullet * b = entity_pool_add_entity(game_state->entity_pool, Type_Bullet);
+        *b = (Bullet) {
             .entity = {
                 .x = player->entity.x,
                 .y = player->entity.y,
@@ -42,6 +42,8 @@ void player_update(Player * player, GameState * game_state) {
                 .texture = game_state->drawing_context->bullet_texture,
             },
         };
+
+        bullet_init(b, game_state, -100);
 
         player->firing = true;
         player->reload_timer = 0;
