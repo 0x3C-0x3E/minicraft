@@ -17,7 +17,7 @@ cd build
 This is a way too overengineered game written in C with pure SDL. It is mostly just a learning exercise and probably wont be developed much further
 
 ## Code count
-![GitHub code search count](https://img.shields.io/github/search)
+![GitHub code search count](https://img.shields.io/github/search?query=goto%20language%3Ac)
 
 
 ## Screenshots
