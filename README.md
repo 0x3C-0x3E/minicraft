@@ -16,6 +16,9 @@ cd build
 ## What is this?
 This is a way too overengineered game written in C with pure SDL. It is mostly just a learning exercise and probably wont be developed much further
 
+## Code count
+[![](https://tokei.rs/b1/github/XAMPPRocky/tokei)](https://github.com/XAMPPRocky/tokei).
+
 ## Screenshots
 !WORK IN PROGRESS
 
