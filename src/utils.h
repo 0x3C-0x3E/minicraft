@@ -1,14 +1,20 @@
 #pragma once
 #include <stdbool.h>
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-bool rects_collide(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2) {
+bool rects_collide(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
 
-    if (x1 + w1 <= x2 || x2 + w2 <= x1)
-        return false;
 
-    if (y1 + h1 <= y2 || y2 + h2 <= y1)
-        return false;
+// Note: min is inclusive, while max is exclusive; like it should be!
+int get_random(int min, int max);
 
-    return true;
-}
 
+#include <fcntl.h>
+#include <unistd.h>
+
+unsigned int seed_from_urandom();
+
+
+void init_rand();

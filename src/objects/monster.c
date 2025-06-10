@@ -1,5 +1,4 @@
 #include "monster.h"
-#include "../utils.h"
 #include <stdio.h>
 
 void monster_init(Monster * monster) {
@@ -12,12 +11,17 @@ void monster_init(Monster * monster) {
     monster->max_animation_counter = 0.1f;
 
     monster->is_exploding = false;
+
+    monster->fire_counter = 0.0f;
+    monster->max_fire_counter = 3.0f + ((float) get_random(-5, 5) * 0.1);
 }
 
 
 void monster_update(Monster * monster, GameState * game_state) {
     
     monster_update_animation(monster, game_state);
+
+    monster_update_fire(monster, game_state);
 
     monster->entity.x += monster->entity.x_vel * game_state->dt;
     monster->entity.y += monster->entity.y_vel * game_state->dt;
@@ -43,20 +47,6 @@ void monster_update_animation(Monster * monster, GameState * game_state) {
     monster->animation_counter = 0;
     monster->entity.img_rect.x += 16;
 
-
-    Bullet * b = entity_pool_add_entity(game_state->entity_pool, Type_Bullet);
-    *b = (Bullet) {
-        .entity = {
-            .x = monster->entity.x,
-            .y = monster->entity.y,
-            .img_rect = (SDL_Rect) {0, 0, 16, 16}, 
-            .texture = game_state->drawing_context->monster_bullet_texture,
-        },
-    };
-
-    bullet_init(b, game_state, 75);
-
-    
     if (monster->is_exploding) {
         if (monster->entity.img_rect.x >= 64) {
             // finished explosion animation
@@ -68,6 +58,27 @@ void monster_update_animation(Monster * monster, GameState * game_state) {
         }
     }
 
+}
+
+void monster_update_fire(Monster * monster, GameState * game_state) {
+    monster->fire_counter += 1.0f * game_state->dt;
+
+    if (monster->fire_counter <= monster->max_fire_counter) {
+        return;
+    }
+
+    monster->fire_counter = 0;            
+    Bullet * b = entity_pool_add_entity(game_state->entity_pool, Type_Bullet);
+    *b = (Bullet) {
+        .entity = {
+            .x = monster->entity.x,
+            .y = monster->entity.y,
+            .img_rect = (SDL_Rect) {0, 0, 8, 8}, 
+            .texture = game_state->drawing_context->monster_bullet_texture,
+        },
+    };
+
+    bullet_init(b, game_state, 75);
 }
 
 void monster_update_velocity(Monster * monster, GameState * game_state) {
@@ -87,25 +98,6 @@ void monster_update_check_for_collision(Monster * monster, GameState * game_stat
     if (monster->entity.y >= DISPLAY_HEIGHT) {
         entity_pool_mark_entity_for_removal(game_state->entity_pool, entity_pool_get_index(game_state->entity_pool, (void * )monster));
         printf("Game Over!\n");
-    }
-
-    for (unsigned int i = 0; i < game_state->entity_pool->entity_count; i ++) {
-        if (game_state->entity_pool->entity_map[i] == Type_Bullet) {
-            Bullet * b = (Bullet * ) game_state->entity_pool->entities[i];
-            
-            // quick fix for monsters to not kill themselves after shooting a bullet
-            // cause you cant hit yourself if the bullet's going in the other direction
-            if (b->entity.y_vel > 0) {
-                continue;
-            }
-
-            if (rects_collide(monster->entity.x, monster->entity.y, 16, 16, b->entity.x, b->entity.y, 16, 16)) {
-                entity_pool_mark_entity_for_removal(game_state->entity_pool, entity_pool_get_index(game_state->entity_pool, (void * )b));
-                monster->is_exploding = true;
-                monster->entity.img_rect = (SDL_Rect) {0, 0, 16, 16};
-                monster->entity.texture = game_state->drawing_context->explosion_texture;
-            }
-        }
     }
 }
 

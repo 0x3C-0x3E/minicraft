@@ -16,4 +16,8 @@ void bullet_init(Bullet * bullet, GameState * game_state, float y_vel);
 
 void bullet_update(Bullet * bullet, GameState * game_state);
 
+void bullet_update_animation(Bullet * bullet, GameState * game_state);
+
+void bullet_update_check_collision(Bullet * bullet, GameState * game_state);
+
 void bullet_draw(Bullet * bullet, DrawingContext * drawing_context);
