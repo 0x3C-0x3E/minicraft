@@ -1,7 +1,6 @@
 #include "player.h"
 #include <SDL2/SDL_keyboard.h>
 #include <SDL2/SDL_scancode.h>
-#include <wchar.h>
 
 void player_init(Player * player) {
     player->speed = 100;
@@ -18,16 +17,40 @@ void player_init(Player * player) {
 
 void player_update(Player * player, GameState * game_state) {
     const Uint8 * keystate = SDL_GetKeyboardState(NULL);
+    
+    bool horizontal_movement = false;
+    bool vertical_movement = false;
 
     if (keystate[SDL_SCANCODE_D]) {
         player->entity.x_vel = player->speed;
         player->entity.img_rect = (SDL_Rect) {32, 0, 16, 16};
+        horizontal_movement = true;
     } else if (keystate[SDL_SCANCODE_A]) {
         player->entity.x_vel = -player->speed;
         player->entity.img_rect = (SDL_Rect) {0, 0, 16, 16};
+        horizontal_movement = true;
     } else { 
         player->entity.img_rect = (SDL_Rect) {16, 0, 16, 16};
         player->entity.x_vel = 0;
+    }
+
+
+    if (keystate[SDL_SCANCODE_W]) {
+        player->entity.y_vel = -player->speed;
+        vertical_movement = true;
+    } else if (keystate[SDL_SCANCODE_S]) {
+        player->entity.y_vel = player->speed;
+        vertical_movement = true;
+    } else {
+        player->entity.y_vel = 0;
+    }
+
+
+    if (horizontal_movement && vertical_movement) {
+        // yes i am too lazy to google how to import math.h in c with sin and pi so magic number it is (:
+        // for later (or probably never) math.sin((math.pi / 180) * 45)
+        player->entity.x_vel *= 0.7071067811865475;
+        player->entity.y_vel *= 0.7071067811865475;
     }
 
     player->reload_timer += 1 * game_state->dt;
@@ -52,14 +75,17 @@ void player_update(Player * player, GameState * game_state) {
     }
 
     player->entity.x += player->entity.x_vel * game_state->dt;
+    player->entity.y += player->entity.y_vel * game_state->dt;
 
     if (player->entity.x <= 0) {
         player->entity.x = 0;
     }
-
     if (player->entity.x >= DISPLAY_WIDTH - 16) {
         player->entity.x = DISPLAY_WIDTH - 16;
     }
+
+    player->entity.y = (player->entity.y <= 0) ? 0 : player->entity.y;
+    player->entity.y = (player->entity.y >= DISPLAY_HEIGHT-16) ? DISPLAY_HEIGHT-16 : player->entity.y;
 
     player->animation_counter += 1 + game_state->dt;
     if (player->animation_counter >= player->max_animation_counter) {
