@@ -13,6 +13,8 @@ void player_init(Player * player) {
 
     player->reload_timer = 0.0f;
     player->max_reload_timer = 0.5f;
+
+    player->health = 100;
 }
 
 void player_update(Player * player, GameState * game_state) {
@@ -92,6 +94,8 @@ void player_update(Player * player, GameState * game_state) {
         player->animation_counter = 0;
         player->booster_rect.x = (player->booster_rect.x == 0) ? 16 : 0;
     }
+
+    game_state->hud->health = player->health;
 
 }
 

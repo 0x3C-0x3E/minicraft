@@ -14,6 +14,7 @@
 
 #include "../spawner/spawner_monster.h"
 
+
 typedef struct App {
     Renderer renderer;
     DrawingContext drawing_context;
@@ -22,6 +23,8 @@ typedef struct App {
     float current_time;
     float global_time;
     float dt;
+
+    Hud hud;
 
     GameState game_state;
 

@@ -60,8 +60,9 @@ void bullet_update_check_collision(Bullet * bullet, GameState * game_state) {
             }
 
             if (rects_collide(bullet->entity.x, bullet->entity.y, bullet->entity.img_rect.w, bullet->entity.img_rect.h, player->entity.x, player->entity.y, 16, 16)) {
-                printf("Got hit!\n");
-                // TODO: lower health
+                player->health -= 34;
+                game_state->hud->health = player->health;
+                entity_pool_mark_entity_for_removal(game_state->entity_pool, entity_pool_get_index(game_state->entity_pool, bullet));
             }
         }
     }

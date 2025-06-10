@@ -17,4 +17,8 @@ typedef struct DrawingContext {
     SDL_Texture * bg_texture;
     float bg_scroll_y;
     
+    SDL_Texture * hud_texture;
+    // only used for the hud
+    float dt;
+    
 } DrawingContext;

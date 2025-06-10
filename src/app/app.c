@@ -46,6 +46,7 @@ int app_init(App* app) {
         .explosion_texture = renderer_load_texture(&app->renderer, "res/explosion.png"),
         .bg_texture = renderer_load_texture(&app->renderer, "res/bg.png"),
         .bg_scroll_y = 0.0f,
+        .hud_texture = renderer_load_texture(&app->renderer, "res/hud.png")
     };
 
     app->entity_pool = (EntityPool) {
@@ -53,10 +54,14 @@ int app_init(App* app) {
     };
     
     // scuffed but should work
+    // or does it??
     memset(&app->entity_pool.entity_count, 0, sizeof(int));
+
+    hud_init(&app->hud);
 
     app->game_state = (GameState) {
         .entity_pool = &app->entity_pool,
+        .hud = &app->hud,
         .dt = app->dt,
         .drawing_context = &app->drawing_context,
     };
@@ -92,6 +97,7 @@ void app_run(App * app) {
 
         app->dt = frame_time;
         app->game_state.dt = frame_time;
+        app->drawing_context.dt = frame_time;
 
         app->current_time = new_time;
         app->accumilator += frame_time; 
@@ -117,6 +123,8 @@ void app_run(App * app) {
                
         entity_pool_update(&app->entity_pool, &app->game_state);
 
+        hud_update(&app->hud, &app->drawing_context);
+
         renderer_clear(&app->renderer);
 
         app->drawing_context.bg_scroll_y += 10 * app->dt;
@@ -136,6 +144,8 @@ void app_run(App * app) {
         }
         
         entity_pool_draw(&app->entity_pool, &app->drawing_context);
+
+        hud_draw(&app->hud, &app->drawing_context);
 
         renderer_present(&app->renderer);
         
