@@ -15,6 +15,7 @@ void player_init(Player * player) {
     player->max_reload_timer = 0.5f;
 
     player->health = 100;
+    player->power = 100;
 }
 
 void player_update(Player * player, GameState * game_state) {
@@ -56,6 +57,7 @@ void player_update(Player * player, GameState * game_state) {
     }
 
     player->reload_timer += 1 * game_state->dt;
+    player->power = (int) ((float)player->reload_timer / player->max_reload_timer * 100);
 
     if (keystate[SDL_SCANCODE_SPACE] && !player->firing && player->reload_timer >= player->max_reload_timer) {
         Bullet * b = entity_pool_add_entity(game_state->entity_pool, Type_Bullet);
@@ -96,6 +98,11 @@ void player_update(Player * player, GameState * game_state) {
     }
 
     game_state->hud->health = player->health;
+    if (player->health <= 0) {
+        game_state->hud->is_game_over = true;
+    }
+
+    game_state->hud->power = player->power;
 
 }
 

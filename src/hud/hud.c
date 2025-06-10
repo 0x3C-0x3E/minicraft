@@ -1,8 +1,7 @@
 #include "hud.h"
-#include <stdio.h>
 
 void hud_init(Hud * hud) {
-    hud->health = 34;
+    hud->health = 10;
     hud->max_health = 100;
 
     hud->power = 0;
@@ -21,13 +20,23 @@ void hud_draw(Hud * hud, DrawingContext * drawing_context) {
 
     renderer_draw(drawing_context->renderer, drawing_context->hud_texture, (SDL_Rect) {0, 16, 48, 16}, 0, DISPLAY_HEIGHT - 24);
     for (int i = 0; i < 23; i++) {
-        float p = (float) i/23;
-        float p2 = (float) hud->health/hud->max_health;
-        if (p > p2) {
+        float p = (float) i / 23;
+        float p2 = (float) hud->health / hud->max_health;
+        if (p >= p2) {
             break;
         }
         renderer_draw(drawing_context->renderer, drawing_context->hud_texture, (SDL_Rect) {48, 24, 1, 2}, 20 + i, DISPLAY_HEIGHT - 24 + 8);
     }
+
+    for (int i = 0; i < 16; i++) {
+        float p = (float) i / 16;
+        float p2 = (float) hud->power / hud->max_power;
+        if (p >= p2) {
+            break;
+        }
+        renderer_draw(drawing_context->renderer, drawing_context->hud_texture, (SDL_Rect) {48, 29, 1, 1}, 24 + i, DISPLAY_HEIGHT - 24 + 13);
+    }
+
     
     // middle text
     if (hud->is_start) {

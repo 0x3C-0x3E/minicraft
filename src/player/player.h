@@ -18,6 +18,7 @@ typedef struct Player {
     SDL_Rect booster_rect;
 
     int health;
+    int power;
 
 } Player;
 
