@@ -17,3 +17,8 @@ cd build
 This is a way too overengineered game written in C with pure SDL. It is mostly just a learning exercise and probably wont be developed much further
 
 ## Screenshots
+!WORK IN PROGRESS
+
+![2025-06-10-180629_hyprshot](https://github.com/user-attachments/assets/73da2d8b-1e78-4c1a-aabd-84199f346386)
+
+![2025-06-10-180640_hyprshot](https://github.com/user-attachments/assets/48054350-37a4-4163-bb44-d5999229c5b6)
