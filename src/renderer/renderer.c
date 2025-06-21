@@ -2,6 +2,7 @@
 #include <SDL2/SDL_error.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_video.h>
 
 int renderer_init(Renderer * renderer) {
 
@@ -14,10 +15,14 @@ int renderer_init(Renderer * renderer) {
 		SDL_WINDOW_SHOWN
     );
 
+    // SDL_SetWindowResizable(renderer->sdl_window, true);
+
     if (!renderer->sdl_window) {
         printf("SDL_CreateWindow Error: %s\n", SDL_GetError());
         return 1;
     }
+
+    
 
 
     renderer->sdl_renderer = SDL_CreateRenderer(renderer->sdl_window, -1, SDL_RENDERER_ACCELERATED);

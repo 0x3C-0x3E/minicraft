@@ -10,6 +10,8 @@ typedef struct Bullet {
 
     float animation_counter;
     float max_animation_counter;
+
+    int bullet_type;
 } Bullet;
 
 void bullet_init(Bullet * bullet, GameState * game_state, float y_vel);

@@ -1,11 +1,12 @@
 #include "spawner_monster.h"
+#include "../utils.h"
 
 void spawner_monster_init(SpawnerMonster * spawner_monster, GameState * game_state) {
     spawner_monster->spawner = (Spawner) {
-        .max_spawner_counter = 2,
+        .max_spawner_counter = 5,
         .spawner_counter = 0,
         .spawing_func = spawner_monster_spawn_monster,
-        .wave_size = 5,
+        .wave_size = 4,
     };
 }
 

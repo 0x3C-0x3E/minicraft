@@ -1,4 +1,4 @@
-#pragma once
+#pragma once 
 #include <SDL2/SDL_render.h>
 #include <stdio.h>
 #include <stdint.h>

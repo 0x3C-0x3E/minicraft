@@ -1,7 +1,10 @@
 #include "app.h"
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_video.h>
 #include <stdbool.h>
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include "../constants.h"
 
 
 int app_init_sdl(App * app) {
@@ -116,6 +119,12 @@ void app_run(App * app) {
                     SDL_Quit();
                     app->running = false;
                     return;
+                }
+                if (e.type == SDL_WINDOWEVENT) {
+                    int width, height;
+                    SDL_GetWindowSize(app->renderer.sdl_window, &width, &height);
+                    constants->screen_width = width;
+                    constants->screen_height = height;
                 }
             }
 
