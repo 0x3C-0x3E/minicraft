@@ -13,6 +13,7 @@
 #include "../entity_pool/entity_pool.h"
 
 #include "../spawner/spawner_monster.h"
+#include "../spawner/spawner_coin.h"
 
 
 typedef struct App {
@@ -31,6 +32,7 @@ typedef struct App {
     EntityPool entity_pool;
 
     SpawnerMonster spawner_monster;
+    SpawnerCoin spawner_coin;
 
     bool running;
 

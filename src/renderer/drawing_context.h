@@ -11,6 +11,7 @@ typedef struct DrawingContext {
     SDL_Texture * bullet_texture;
     SDL_Texture * monster_texture;
     SDL_Texture * monster_bullet_texture;
+    SDL_Texture * coin_texture;
 
     SDL_Texture * explosion_texture;
 

@@ -11,13 +11,10 @@ typedef struct GameState GameState;
 #include "../objects/cactus.h"
 #include "../objects/bullet.h"
 #include "../objects/monster.h"
+#include "../objects/coin.h"
 
 #include "../renderer/drawing_context.h"
 
-
-//typedef struct Cactus Cactus;
-//typedef struct Player Player;
-//typedef struct Bullet Bullet;
 
 enum EntityType {
    Type_Entity,
@@ -25,6 +22,7 @@ enum EntityType {
    Type_Player,
    Type_Bullet,
    Type_Monster,
+   Type_Coin,
 }; 
 
 typedef struct EntityPool {

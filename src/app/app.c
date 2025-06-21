@@ -46,7 +46,9 @@ int app_init(App* app) {
         .explosion_texture = renderer_load_texture(&app->renderer, "res/explosion.png"),
         .bg_texture = renderer_load_texture(&app->renderer, "res/bg.png"),
         .bg_scroll_y = 0.0f,
-        .hud_texture = renderer_load_texture(&app->renderer, "res/hud.png")
+        .hud_texture = renderer_load_texture(&app->renderer, "res/hud.png"),
+        .coin_texture = renderer_load_texture(&app->renderer, "res/coin.png"),
+
     };
 
     app->entity_pool = (EntityPool) {
@@ -79,6 +81,7 @@ int app_init(App* app) {
     player_init(p);
     
     spawner_monster_init(&app->spawner_monster, &app->game_state);
+    spawner_coin_init(&app->spawner_coin, &app->game_state);
     
     return 0;
 }
@@ -119,8 +122,10 @@ void app_run(App * app) {
             app->accumilator -= TIME_STEP;
         }
         
-        spawner_monster_update(&app->spawner_monster, &app->game_state);
-               
+        spawner_update(&app->spawner_monster.spawner, &app->game_state);
+        spawner_update(&app->spawner_coin.spawner, &app->game_state);
+
+
         entity_pool_update(&app->entity_pool, &app->game_state);
 
         hud_update(&app->hud, &app->drawing_context);

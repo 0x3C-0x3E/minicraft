@@ -28,6 +28,10 @@ void * entity_pool_add_entity(EntityPool * entity_pool, enum EntityType entity_t
             entity_pool->entities[entity_pool->entity_count] = malloc(sizeof(Monster));
             entity_pool->entity_map[entity_pool->entity_count] = Type_Monster;
             break;
+        case Type_Coin:
+            entity_pool->entities[entity_pool->entity_count] = malloc(sizeof(Coin));
+            entity_pool->entity_map[entity_pool->entity_count] = Type_Coin;
+            break;
     }
     
     // the order is important here, messed this up already (:
@@ -92,6 +96,9 @@ void entity_pool_update(EntityPool * entity_pool, GameState * game_state) {
             case Type_Monster:
                 monster_update((Monster * )entity_pool->entities[i], game_state);
                 break;
+            case Type_Coin:
+                coin_update((Coin * )entity_pool->entities[i], game_state);
+                break;
         }
     }
 
@@ -120,6 +127,9 @@ void entity_pool_draw(EntityPool * entity_pool, DrawingContext * drawing_context
                 break;
             case Type_Monster:
                 monster_draw((Monster * )entity_pool->entities[i], drawing_context);
+                break;
+            case Type_Coin:
+                coin_draw((Coin * )entity_pool->entities[i], drawing_context);
                 break;
         }
     }
