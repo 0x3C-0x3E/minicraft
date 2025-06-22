@@ -18,7 +18,7 @@ void coin_update(Coin * coin, GameState * game_state) {
             Player * player = (Player * ) entity;
 
             if (rects_collide(coin->entity.x, coin->entity.y, coin->entity.img_rect.w, coin->entity.img_rect.h, player->entity.x, player->entity.y, 16, 16)) {
-                printf("Score +10\n");
+                game_state->hud->score += 15;
                 entity_pool_mark_entity_for_removal(game_state->entity_pool, entity_pool_get_index(game_state->entity_pool, coin));
             }
         }

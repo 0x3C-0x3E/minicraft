@@ -1,11 +1,13 @@
 #include "bullet.h"
 #include "../utils.h"
-#include <stdio.h>
+#include "../spawner/spawner_coin.h"
 
-void bullet_init(Bullet * bullet, GameState * game_state, float y_vel) {
+void bullet_init(Bullet * bullet, GameState * game_state, float y_vel, enum Bullet_Type bullet_type) {
     bullet->entity.y_vel = y_vel;
     bullet->animation_counter = 0.0f;
     bullet->max_animation_counter = 0.3f;
+
+    bullet->bullet_type = bullet_type;
 }
 
 void bullet_update(Bullet * bullet, GameState * game_state) {
@@ -30,8 +32,7 @@ void bullet_update_animation(Bullet * bullet, GameState * game_state) {
 
     bullet->animation_counter = 0.0f;
     
-    //very scuffed but works
-    if (bullet->entity.img_rect.w == 8) {
+    if (bullet->bullet_type == Monster_Bullet) {
         bullet->entity.img_rect.x = (bullet->entity.img_rect.x == 0) ?  8 : 0;
     } else {
         bullet->entity.img_rect.x = (bullet->entity.img_rect.x == 0) ? 16 : 0;
@@ -43,7 +44,7 @@ void bullet_update_check_collision(Bullet * bullet, GameState * game_state) {
         void * entity = game_state->entity_pool->entities[i];
         if (game_state->entity_pool->entity_map[i] == Type_Monster) {
             Monster * monster = (Monster * ) entity;
-            if (bullet->entity.y_vel > 0) {
+            if (bullet->bullet_type == Monster_Bullet) {
                 continue;
             }
 
@@ -52,10 +53,13 @@ void bullet_update_check_collision(Bullet * bullet, GameState * game_state) {
                 monster->entity.img_rect = (SDL_Rect) {0, 0, 16, 16};
                 monster->entity.texture = game_state->drawing_context->explosion_texture;
                 entity_pool_mark_entity_for_removal(game_state->entity_pool, entity_pool_get_index(game_state->entity_pool, bullet));
+                spawner_coin_spawn_coin(game_state, monster->entity.x, monster->entity.y);
             }
         } else if (game_state->entity_pool->entity_map[i] == Type_Player) {
             Player * player = (Player * ) entity;
-            if (bullet->entity.y_vel < 0) {
+
+            // No firendly fire! 
+            if (bullet->entity.y_vel < Player_Bullet) {
                 continue;
             }
 

@@ -12,7 +12,7 @@ void player_init(Player * player) {
 
 
     player->reload_timer = 0.0f;
-    player->max_reload_timer = 0.5f;
+    player->max_reload_timer = 1.5f;
 
     player->health = 100;
     player->power = 100;
@@ -59,21 +59,8 @@ void player_update(Player * player, GameState * game_state) {
     player->reload_timer += 1 * game_state->dt;
     player->power = (int) ((float)player->reload_timer / player->max_reload_timer * 100);
 
-    if (keystate[SDL_SCANCODE_SPACE] && !player->firing && player->reload_timer >= player->max_reload_timer) {
-        Bullet * b = entity_pool_add_entity(game_state->entity_pool, Type_Bullet);
-        *b = (Bullet) {
-            .entity = {
-                .x = player->entity.x,
-                .y = player->entity.y,
-                .img_rect = (SDL_Rect) {0, 0, 16, 16}, 
-                .texture = game_state->drawing_context->bullet_texture,
-            },
-        };
-
-        bullet_init(b, game_state, -100);
-
-        player->firing = true;
-        player->reload_timer = 0;
+    if (keystate[SDL_SCANCODE_SPACE] && !player->firing && player->reload_timer >= player->max_reload_timer / 2) {
+        player_shoot(player, game_state);
     } else if (!keystate[SDL_SCANCODE_SPACE] && player->firing) {
         player->firing = false;
     }
@@ -104,6 +91,26 @@ void player_update(Player * player, GameState * game_state) {
 
     game_state->hud->power = player->power;
 
+}
+
+void player_shoot(Player * player, GameState * game_state) {
+    // if we only reloaded to half of the reload_timer, we only shoot one bullet
+    int number_of_bullets = (player->reload_timer <= player->max_reload_timer) ? 1 : 2;
+    for (int i = 0; i < number_of_bullets; i++) {
+        Bullet * b = entity_pool_add_entity(game_state->entity_pool, Type_Bullet);
+        *b = (Bullet) {
+            .entity = {
+                .x = player->entity.x + i * 8,
+                .y = player->entity.y,
+                .img_rect = (SDL_Rect) {0, 0, 8, 16}, 
+                .texture = game_state->drawing_context->bullet_texture,
+            },
+        };
+
+        bullet_init(b, game_state, -100, Player_Bullet);
+    }
+    player->firing = true;
+    player->reload_timer = 0;
 }
 
 void player_draw(Player * player, DrawingContext * drawing_context) {

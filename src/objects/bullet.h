@@ -5,16 +5,22 @@
 #include "../entity_pool/entity_pool.h"
 #include <stdbool.h>
 
+enum Bullet_Type {
+    Player_Bullet,
+    Monster_Bullet,
+};
+
+
 typedef struct Bullet {
     Entity entity;
 
     float animation_counter;
     float max_animation_counter;
 
-    int bullet_type;
+    enum Bullet_Type bullet_type;
 } Bullet;
 
-void bullet_init(Bullet * bullet, GameState * game_state, float y_vel);
+void bullet_init(Bullet * bullet, GameState * game_state, float y_vel, enum Bullet_Type bullet_type);
 
 void bullet_update(Bullet * bullet, GameState * game_state);
 

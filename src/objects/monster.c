@@ -1,5 +1,5 @@
 #include "monster.h"
-#include "../spawner/spawner_coin.h"
+#include "bullet.h"
 #include <stdio.h>
 
 void monster_init(Monster * monster) {
@@ -52,7 +52,6 @@ void monster_update_animation(Monster * monster, GameState * game_state) {
         if (monster->entity.img_rect.x >= 64) {
             // finished explosion animation
             entity_pool_mark_entity_for_removal(game_state->entity_pool, entity_pool_get_index(game_state->entity_pool, (void * )monster));
-            spawner_coin_spawn_coin(game_state, monster->entity.x, monster->entity.y);
             
         }
     } else {
@@ -81,7 +80,7 @@ void monster_update_fire(Monster * monster, GameState * game_state) {
         },
     };
 
-    bullet_init(b, game_state, 75);
+    bullet_init(b, game_state, 75, Monster_Bullet);
 }
 
 void monster_update_velocity(Monster * monster, GameState * game_state) {
